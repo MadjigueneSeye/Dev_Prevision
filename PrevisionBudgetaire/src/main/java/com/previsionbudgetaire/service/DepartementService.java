@@ -12,5 +12,6 @@ public interface DepartementService {
     public DepartementDto saveDepartement(DepartementDto departementDto);
     public void deleteDepartement(Long id);
     public List<DepartementDto> getDepartementsByEtablissement(Long id);
+    public DepartementDto modifierDepartement(DepartementDto departementDto);
 
 }

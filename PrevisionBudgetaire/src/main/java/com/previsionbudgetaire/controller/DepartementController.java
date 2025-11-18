@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/departement")
+@RequestMapping("api/departement")
 public class DepartementController {
 
     @Autowired
@@ -38,8 +38,13 @@ public class DepartementController {
         return departementService.getDepartementsByEtablissement(id);
     }
 
+    @PutMapping("/modifier")
+    public DepartementDto  modifierDepartement(@RequestBody DepartementDto departementDto) {
+        return departementService.modifierDepartement(departementDto);
+    }
+
     @DeleteMapping("/supp/{id}")
-    public void deleteDepartement(@RequestBody Long id) {
+    public void deleteDepartement(@PathVariable Long id) {
         departementService.deleteDepartement(id);
     }
 

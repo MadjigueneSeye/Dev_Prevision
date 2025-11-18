@@ -61,4 +61,12 @@ public class DepartementServiceImple implements DepartementService {
 //        }
         return null;
     }
+
+    @Override
+    public DepartementDto modifierDepartement(DepartementDto departementDto) {
+        Departement departement=departementMapper.fromDepartementDtoToDepartement(departementDto);
+        departement=departementRepository.save(departement);
+
+        return departementMapper.fromDepartementToDepartementDto(departement);
+    }
 }
