@@ -1,6 +1,9 @@
 package com.previsionbudgetaire.repository;
 
 import com.previsionbudgetaire.model.Departement;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
