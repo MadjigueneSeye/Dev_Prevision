@@ -1,5 +1,6 @@
 package com.previsionbudgetaire.dto;
 
+import com.previsionbudgetaire.model.Departement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,5 @@ public class FormationDTO {
 
     private String libelle;
 
-    private Long departementId;
-
-    private String departementLibelle; // Pour l'affichage
+    private Departement departement; // Pour l'affichage
 }

@@ -1,6 +1,5 @@
 package com.previsionbudgetaire.service;
 
-import com.previsionbudgetaire.dto.FormationCreateDTO;
 import com.previsionbudgetaire.dto.FormationDTO;
 import com.previsionbudgetaire.exception.ResourceNotFoundException;
 import com.previsionbudgetaire.mapper.FormationMapper;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
+@Transactional
 public class FormationService {
 
     private final FormationRepository formationRepository;
@@ -34,97 +33,49 @@ public class FormationService {
      * Récupérer toutes les formations
      */
     public List<FormationDTO> getAllFormations() {
-        log.debug("Récupération de toutes les formations");
-        return formationRepository.findAllWithDepartement()
-                .stream()
-                .map(formationMapper::toDTO)
-                .collect(Collectors.toList());
+        List<Formation> formations = formationRepository.findAll();
+        List<FormationDTO> formationDTOS = formations.stream().map(formationMapper::toDTO).collect(Collectors.toList());
+        return formationDTOS;
     }
 
     /**
      * Récupérer une formation par son ID
      */
     public FormationDTO getFormationById(Long id) {
-        log.debug("Récupération de la formation avec l'ID: {}", id);
-        Formation formation = formationRepository.findByIdWithDepartement(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Formation non trouvée avec l'ID: " + id));
-        return formationMapper.toDTO(formation);
+       Formation formation = formationRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Formation"));
+       FormationDTO formationDTO = formationMapper.toDTO(formation);
+       return formationDTO;
     }
 
     /**
      * Récupérer les formations d'un département
      */
     public List<FormationDTO> getFormationsByDepartement(Long departementId) {
-        log.debug("Récupération des formations du département: {}", departementId);
-
-        // Vérifier que le département existe
-        if (!departementRepository.existsById(departementId)) {
-            throw new ResourceNotFoundException("Département non trouvé avec l'ID: " + departementId);
-        }
-
-        return formationRepository.findByDepartementId(departementId)
-                .stream()
-                .map(formationMapper::toDTO)
-                .collect(Collectors.toList());
+       List<Formation> formations = formationRepository.findByDepartementId(departementId);
+       List<FormationDTO> formationDTOS = formations.stream().map(formationMapper::toDTO).collect(Collectors.toList());
+       return formationDTOS;
     }
 
     /**
      * Créer une nouvelle formation
      */
     @Transactional
-    public FormationDTO createFormation(FormationCreateDTO createDTO) {
-        log.debug("Création d'une nouvelle formation: {}", createDTO.getLibelle());
-
-        // Vérifier que le département existe
-        Departement departement = departementRepository.findById(createDTO.getDepartementId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Département non trouvé avec l'ID: " + createDTO.getDepartementId()));
-
-        // Vérifier l'unicité du libellé dans le département
-        if (formationRepository.existsByLibelleIgnoreCaseAndDepartementId(
-                createDTO.getLibelle(), createDTO.getDepartementId())) {
-            throw new DuplicateResourceException(
-                    "Une formation avec ce libellé existe déjà dans ce département");
-        }
-
-        Formation formation = formationMapper.toEntity(createDTO, departement);
-        Formation savedFormation = formationRepository.save(formation);
-
-        log.info("Formation créée avec succès avec l'ID: {}", savedFormation.getId());
-        return formationMapper.toDTO(savedFormation);
+    public FormationDTO createFormation(FormationDTO createDTO) {
+        Formation formation = formationMapper.toEntity(createDTO);
+        formation = formationRepository.save(formation);
+        FormationDTO formationDTO = formationMapper.toDTO(formation);
+        return formationDTO;
     }
 
     /**
      * Mettre à jour une formation
      */
     @Transactional
-    public FormationDTO updateFormation(Long id, FormationCreateDTO updateDTO) {
-        log.debug("Mise à jour de la formation avec l'ID: {}", id);
-
-        // Récupérer la formation existante
-        Formation formation = formationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Formation non trouvée avec l'ID: " + id));
-
-        // Vérifier que le département existe
-        Departement departement = departementRepository.findById(updateDTO.getDepartementId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Département non trouvé avec l'ID: " + updateDTO.getDepartementId()));
-
-        // Vérifier l'unicité du libellé (en excluant la formation actuelle)
-        formationRepository.findByLibelleIgnoreCase(updateDTO.getLibelle())
-                .ifPresent(existingFormation -> {
-                    if (!existingFormation.getId().equals(id) &&
-                            existingFormation.getDepartement().getId().equals(updateDTO.getDepartementId())) {
-                        throw new DuplicateResourceException(
-                                "Une formation avec ce libellé existe déjà dans ce département");
-                    }
-                });
-
-        formationMapper.updateEntity(formation, updateDTO, departement);
-        Formation updatedFormation = formationRepository.save(formation);
-
-        log.info("Formation mise à jour avec succès avec l'ID: {}", id);
-        return formationMapper.toDTO(updatedFormation);
+    public FormationDTO updateFormation( FormationDTO updateDTO) {
+        Formation formation = formationMapper.toEntity(updateDTO);
+        formation = formationRepository.save(formation);
+        FormationDTO formationDTO = formationMapper.toDTO(formation);
+        return formationDTO;
     }
 
     /**
@@ -132,24 +83,15 @@ public class FormationService {
      */
     @Transactional
     public void deleteFormation(Long id) {
-        log.debug("Suppression de la formation avec l'ID: {}", id);
-
-        if (!formationRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Formation non trouvée avec l'ID: " + id);
-        }
-
         formationRepository.deleteById(id);
-        log.info("Formation supprimée avec succès avec l'ID: {}", id);
     }
 
     /**
      * Rechercher des formations par libellé
      */
     public List<FormationDTO> searchFormations(String keyword) {
-        log.debug("Recherche de formations avec le mot-clé: {}", keyword);
-        return formationRepository.searchByLibelle(keyword)
-                .stream()
-                .map(formationMapper::toDTO)
-                .collect(Collectors.toList());
+      List<Formation> formations=formationRepository.searchByLibelle(keyword);
+      List<FormationDTO> formationDTOS = formations.stream().map(formationMapper::toDTO).collect(Collectors.toList());
+      return formationDTOS;
     }
 }

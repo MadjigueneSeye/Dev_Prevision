@@ -1,7 +1,6 @@
 package com.previsionbudgetaire.controller;
 
 
-import com.previsionbudgetaire.dto.FormationCreateDTO;
 import com.previsionbudgetaire.dto.FormationDTO;
 import com.previsionbudgetaire.service.FormationService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ public class FormationController {
      */
     @GetMapping
     public ResponseEntity<List<FormationDTO>> getAllFormations() {
-        log.info("GET /api/formations - Récupération de toutes les formations");
         List<FormationDTO> formations = formationService.getAllFormations();
         return ResponseEntity.ok(formations);
     }
@@ -36,7 +34,6 @@ public class FormationController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<FormationDTO> getFormationById(@PathVariable Long id) {
-        log.info("GET /api/formations/{} - Récupération de la formation", id);
         FormationDTO formation = formationService.getFormationById(id);
         return ResponseEntity.ok(formation);
     }
@@ -46,7 +43,6 @@ public class FormationController {
      */
     @GetMapping("/departement/{departementId}")
     public ResponseEntity<List<FormationDTO>> getFormationsByDepartement(@PathVariable Long departementId) {
-        log.info("GET /api/formations/departement/{} - Récupération des formations du département", departementId);
         List<FormationDTO> formations = formationService.getFormationsByDepartement(departementId);
         return ResponseEntity.ok(formations);
     }
@@ -56,7 +52,6 @@ public class FormationController {
      */
     @GetMapping("/search")
     public ResponseEntity<List<FormationDTO>> searchFormations(@RequestParam String keyword) {
-        log.info("GET /api/formations/search?keyword={}", keyword);
         List<FormationDTO> formations = formationService.searchFormations(keyword);
         return ResponseEntity.ok(formations);
     }
@@ -65,8 +60,7 @@ public class FormationController {
      * POST /api/formations - Créer une nouvelle formation
      */
     @PostMapping
-    public ResponseEntity<FormationDTO> createFormation( @RequestBody FormationCreateDTO createDTO) {
-        log.info("POST /api/formations - Création d'une nouvelle formation: {}", createDTO.getLibelle());
+    public ResponseEntity<FormationDTO> createFormation( @RequestBody FormationDTO createDTO) {
         FormationDTO formation = formationService.createFormation(createDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(formation);
     }
@@ -75,11 +69,8 @@ public class FormationController {
      * PUT /api/formations/{id} - Mettre à jour une formation
      */
     @PutMapping("/{id}")
-    public ResponseEntity<FormationDTO> updateFormation(
-            @PathVariable Long id,
-             @RequestBody FormationCreateDTO updateDTO) {
-        log.info("PUT /api/formations/{} - Mise à jour de la formation", id);
-        FormationDTO formation = formationService.updateFormation(id, updateDTO);
+    public ResponseEntity<FormationDTO> updateFormation(@RequestBody FormationDTO updateDTO) {
+        FormationDTO formation = formationService.updateFormation(updateDTO);
         return ResponseEntity.ok(formation);
     }
 
@@ -88,7 +79,6 @@ public class FormationController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFormation(@PathVariable Long id) {
-        log.info("DELETE /api/formations/{} - Suppression de la formation", id);
         formationService.deleteFormation(id);
         return ResponseEntity.noContent().build();
     }
