@@ -54,7 +54,7 @@ public class DepartementServiceImple implements DepartementService {
 
     @Override
     public List<DepartementDto> getDepartementsByEtablissement(Long id) {
-        List<Departement> departements=departementRepository.findAllByEtablissement(id);
+        List<Departement> departements=departementRepository.findAllByEtablissementId(id);
         List<DepartementDto> departementDtos = new ArrayList<>();
         for (Departement departement : departements) {
             DepartementDto departementDto = new DepartementDto();
