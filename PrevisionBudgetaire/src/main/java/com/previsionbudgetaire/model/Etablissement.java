@@ -1,5 +1,6 @@
 package com.previsionbudgetaire.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.previsionbudgetaire.enumeration.TypeEtablissement;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,8 @@ public class Etablissement {
 
     private TypeEtablissement typeEtablissement;
 
-   @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, orphanRemoval = true)
+   @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL)
+   @JsonIgnore
    private List<Departement> departements = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, orphanRemoval = true)
