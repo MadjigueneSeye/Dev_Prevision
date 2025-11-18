@@ -1,7 +1,6 @@
 package com.previsionbudgetaire.service;
 
 import com.previsionbudgetaire.dto.DepartementDto;
-import com.previsionbudgetaire.model.Departement;
 
 import java.util.List;
 

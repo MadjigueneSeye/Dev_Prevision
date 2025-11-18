@@ -2,8 +2,7 @@ package com.previsionbudgetaire.mapper;
 
 import com.previsionbudgetaire.dto.FormationCreateDTO;
 import com.previsionbudgetaire.dto.FormationDTO;
-import com.previsionbudgetaire.model.Formation;
-import com.ucad.comptabilite.model.Departement;
+import com.previsionbudgetaire.model.*;
 import org.springframework.stereotype.Component;
 
 @Component

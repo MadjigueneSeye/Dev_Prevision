@@ -23,7 +23,7 @@ public class Formation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departement_id", nullable = false)
-   // private Departement departement;
+   private Departement departement;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

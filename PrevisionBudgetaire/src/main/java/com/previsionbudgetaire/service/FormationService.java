@@ -1,13 +1,16 @@
 package com.previsionbudgetaire.service;
 
-
-
 import com.previsionbudgetaire.dto.FormationCreateDTO;
 import com.previsionbudgetaire.dto.FormationDTO;
 import com.previsionbudgetaire.exception.ResourceNotFoundException;
 import com.previsionbudgetaire.mapper.FormationMapper;
 import com.previsionbudgetaire.model.Formation;
+import com.previsionbudgetaire.repository.DepartementRepository;
 import com.previsionbudgetaire.repository.FormationRepository;
+import com.previsionbudgetaire.exception.DuplicateResourceException; 
+import com.previsionbudgetaire.model.Departement; 
+
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
