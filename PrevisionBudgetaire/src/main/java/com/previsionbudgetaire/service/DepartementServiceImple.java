@@ -6,11 +6,13 @@ import com.previsionbudgetaire.model.Departement;
 import com.previsionbudgetaire.repository.DepartementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DepartementServiceImple implements DepartementService {
 
     @Autowired
@@ -52,13 +54,13 @@ public class DepartementServiceImple implements DepartementService {
 
     @Override
     public List<DepartementDto> getDepartementsByEtablissement(Long id) {
-//        List<Departement> departements=departementRepository.findAllByEtablissement(id);
-//        List<DepartementDto> departementDtos = new ArrayList<>();
-//        for (Departement departement : departements) {
-//            DepartementDto departementDto = new DepartementDto();
-//            departementDto=departementMapper.fromDepartementToDepartementDto(departement);
-//            departementDtos.add(departementDto);
-//        }
+        List<Departement> departements=departementRepository.findAllByEtablissement(id);
+        List<DepartementDto> departementDtos = new ArrayList<>();
+        for (Departement departement : departements) {
+            DepartementDto departementDto = new DepartementDto();
+            departementDto=departementMapper.fromDepartementToDepartementDto(departement);
+            departementDtos.add(departementDto);
+        }
         return null;
     }
 

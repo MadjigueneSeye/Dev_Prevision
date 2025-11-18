@@ -16,6 +16,6 @@ public class Departement {
     Long id;
     String libelle;
 
-//    @ManyToOne
-//    Etablissement etablissement;
+    @ManyToOne
+    Etablissement etablissement;
 }
