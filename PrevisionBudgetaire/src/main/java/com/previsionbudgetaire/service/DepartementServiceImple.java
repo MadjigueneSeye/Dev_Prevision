@@ -3,9 +3,7 @@ package com.previsionbudgetaire.service;
 import com.previsionbudgetaire.dto.DepartementDto;
 import com.previsionbudgetaire.mapper.DepartementMapper;
 import com.previsionbudgetaire.model.Departement;
-import com.previsionbudgetaire.model.Etablissement;
 import com.previsionbudgetaire.repository.DepartementRepository;
-import com.previsionbudgetaire.repository.EtablissementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +17,6 @@ public class DepartementServiceImple implements DepartementService {
 
     @Autowired
     DepartementRepository departementRepository;
-
-    @Autowired
-    EtablissementRepository etablissementRepository;
 
     @Autowired
     DepartementMapper departementMapper;
@@ -66,7 +61,7 @@ public class DepartementServiceImple implements DepartementService {
             departementDto=departementMapper.fromDepartementToDepartementDto(departement);
             departementDtos.add(departementDto);
         }
-        return null;
+        return departementDtos;
     }
 
     @Override

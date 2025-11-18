@@ -28,9 +28,9 @@ public class Etablissement {
 
     private TypeEtablissement typeEtablissement;
 
-   @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL)
-    private List<Departement> departements;
-//
+   @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<Departement> departements = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Prevision> previsions = new ArrayList<>();
 }

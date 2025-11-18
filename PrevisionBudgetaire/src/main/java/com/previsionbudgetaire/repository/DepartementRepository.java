@@ -1,13 +1,11 @@
 package com.previsionbudgetaire.repository;
 
 import com.previsionbudgetaire.model.Departement;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-
 public interface DepartementRepository extends JpaRepository<Departement, Long> {
 
-    List<Departement> findAllByEtablissementId(Long etablissementId);
+    List<Departement> findAllByEtablissementId(Long id);
 }
