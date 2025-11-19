@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/formations")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200")
 public class FormationController {
 
     private final FormationService formationService;
